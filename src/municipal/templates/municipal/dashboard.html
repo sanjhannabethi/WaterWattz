@@ -1,0 +1,446 @@
+{#<!-- dashboard.html -->#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#<head>#}
+{#    <title>Municipal Dashboard</title>#}
+{#    <!-- Add CSS links and other necessary headers here -->#}
+{#    #}
+{#</head>#}
+{#<body>#}
+{#    <h1>Municipal Info</h1>#}
+{#    <p>Department: {{ municipal_profile.department }}</p>#}
+{#    <p>Location: {{ municipal_profile.location }}</p>#}
+{#    <!-- Add additional municipal info fields here -->#}
+{##}
+{#    <h2>All Locations</h2>#}
+{#<ul>#}
+{#    {% for location in locations %}#}
+{#        <li><a href="{% url 'location_consumption' location.id %}">{{ location.name }}</a></li>#}
+{#    {% endfor %}#}
+{#</ul>#}
+{##}
+{#    <!-- Top 5 Water Consumption Locations -->#}
+{#    <h2>Top 5 Water Consumption Locations</h2>#}
+{#    <ul>#}
+{#        {% for reading in top_water_consumption_locations %}#}
+{#            <li>{{ reading.location.name }} - Water Consumption: {{ reading.water_consumption }} units</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{##}
+{#    <!-- Top 5 Electricity Consumption Locations -->#}
+{#    <h2>Top 5 Electricity Consumption Locations</h2>#}
+{#    <ul>#}
+{#        {% for reading in top_electricity_consumption_locations %}#}
+{#            <li>{{ reading.location.name }} - Electricity Consumption: {{ reading.electricity_consumption }} units</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{##}
+{#    <!-- Top 5 Less Water Consumption Locations -->#}
+{#    <h2>Top 5 Less Water Consumption Locations</h2>#}
+{#    <ul>#}
+{#        {% for reading in less_water_consumption_locations %}#}
+{#            <li>{{ reading.location.name }} - Water Consumption: {{ reading.water_consumption }} units</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{##}
+{#    <!-- Top 5 Less Electricity Consumption Locations -->#}
+{#    <h2>Top 5 Less Electricity Consumption Locations</h2>#}
+{#    <ul>#}
+{#        {% for reading in less_electricity_consumption_locations %}#}
+{#            <li>{{ reading.location.name }} - Electricity Consumption: {{ reading.electricity_consumption }} units</li>#}
+{#        {% endfor %}#}
+{#    </ul>#}
+{##}
+{#    <!-- Alert Dashboard -->#}
+{#    {% if alerts %}#}
+{#        <h2>Alert Dashboard</h2>#}
+{#        <ul>#}
+{#            {% for alert in alerts %}#}
+{#                <li>{{ alert.location }} - {{ alert.message }}</li>#}
+{#            {% endfor %}#}
+{#        </ul>#}
+{#    {% endif %}#}
+{#</body>#}
+{#</html>#}
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <style>
+        /* Basic styling for the navigation bar */
+        #navbar {
+            background-color: #3498db;
+            overflow: hidden;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s;
+        }
+
+        #navbar a:hover {
+            background-color: #2980b9;
+        }
+
+        /* Styling for the header */
+        #header {
+            background-color: #2c3e50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Styling for the sections */
+        .section {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .section:hover {
+            transform: scale(1.03);
+        }
+
+        /* Styling for the hyperlinks */
+        .hyperlinks {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .hyperlinks a {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #3498db;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .hyperlinks a:hover {
+            color: #2980b9;
+        }
+
+        /* Styling for the graphs */
+        .graph {
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .graph h3 {
+            color: #e74c3c;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        /* Styling for the notification cards */
+        .notification-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .notification-card h3 {
+            color: #e74c3c;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .notification-card p {
+            color: #34495e;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div id="navbar">
+        <a href="#">Home</a>
+        <a href="#">Edit Profile</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <div id="header">
+        <h1 style="font-size: 32px;">Account Type: State Municipal Corporation</h1>
+    </div>
+
+    <div class="section">
+        <h1>Municipal Info</h1>
+        <p style="font-weight: bold;">Department: {{ municipal_profile.department }}</p>
+        <p style="font-weight: bold;">Location: {{ municipal_profile.location }}</p>
+
+        <div class="hyperlinks">
+            {% for location in locations %}
+            <a href="{% url 'location_consumption' location.id %}">{{ location.name }}</a>
+        {% endfor %}
+{#            <a href="#">Sangareddy</a>#}
+{#            <a href="#">Rudraram</a>#}
+{#            <a href="#">Shankarpally</a>#}
+{#            <a href="#">Miyapur</a>#}
+{#            <a href="#">Lingampally</a>#}
+{#            <a href="#">JNTU</a>#}
+{#            <a href="#">Gachibowli</a>#}
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 style="font-size: 24px;">Graphs</h2>
+        <div class="graph">
+            <h3 style="font-size: 20px;">Top 5 Most Water Consuming Districts</h3>
+            <!-- Insert graph for Top 5 Most Water Consuming Districts here -->
+            <div style="width: 80%; margin: 0 auto;">
+        <canvas id="barChart"></canvas>
+    </div>
+        </div>
+        <div class="graph">
+            <h3 style="font-size: 20px;">Top 5 Most Electricity Consuming Districts</h3>
+            <!-- Insert graph for Top 5 Most Electricity Consuming Districts here -->
+            <div style="width: 80%; margin: 0 auto;">
+        <canvas id="barChart0"></canvas>
+    </div>
+        </div>
+        <div class="graph">
+            <h3 style="font-size: 20px;">Top 5 Least Water Consuming Districts</h3>
+            <!-- Insert graph for Top 5 Least Water Consuming Districts here -->
+            <div style="width: 80%; margin: 0 auto;">
+        <canvas id="barChart1"></canvas>
+    </div>
+        </div>
+        <div class="graph">
+            <h3 style="font-size: 20px;">Top 5 Least Electricity Consuming Districts</h3>
+            <!-- Insert graph for Top 5 Least Electricity Consuming Districts here -->
+            <div style="width: 80%; margin: 0 auto;">
+        <canvas id="barChart2"></canvas>
+    </div>
+        </div>
+    </div>
+    <!-- Alert Dashboard -->
+    {% if alerts %}
+        <h2 style="font-size: 24px;">Alert Dashboard</h2>
+        {% for alert in alerts %}
+        <div class="notification-card">
+            <h3 style="font-size: 18px;">Notification 1</h3>
+            <p>{{ alert.location }} - {{ alert.message }}</p>
+        </div>
+        {% endfor %}
+    {% endif %}
+
+{#    <div class="section">#}
+{#        <h2 style="font-size: 24px;">Alert Dashboard</h2>#}
+{#        <div class="notification-card">#}
+{#            <h3 style="font-size: 18px;">Notification 1</h3>#}
+{#            <p>Emergency notification about irregular supply at some random location.</p>#}
+{#        </div>#}
+{#        <div class="notification-card">#}
+{#            <h3 style="font-size: 18px;">Notification 2</h3>#}
+{#            <p>Emergency notification about irregular supply at some random location.</p>#}
+{#        </div>#}
+{#        <div class="notification-card">#}
+{#            <h3 style="font-size: 18px;">Notification 3</h3>#}
+{#            <p>Emergency notification about irregular supply at some random location.</p>#}
+{#        </div>#}
+{#    </div>#}
+
+</body>
+<script>
+    // chart.js
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Sample data for demonstration
+    const labels = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5"];
+    const data = [150, 200, 120, 300, 250]; // Replace with your data
+
+    // Get the canvas element and create a chart context
+    const ctx = document.getElementById("barChart").getContext("2d");
+
+    // Create the bar chart
+    const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Consumption",
+                data: data,
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // Sample data for demonstration
+    const labels = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5"];
+    const data = [550, 600, 520, 600, 450]; // Replace with your data
+
+    // Get the canvas element and create a chart context
+    const ctx = document.getElementById("barChart0").getContext("2d");
+
+    // Create the bar chart
+    const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Consumption",
+                data: data,
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // Sample data for demonstration
+    const labels = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5"];
+    const data = [150, 100, 120, 100, 50]; // Replace with your data
+
+    // Get the canvas element and create a chart context
+    const ctx = document.getElementById("barChart1").getContext("2d");
+
+    // Create the bar chart
+    const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Consumption",
+                data: data,
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // Sample data for demonstration
+    const labels = ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5"];
+    const data = [50, 100, 10, 100, 120]; // Replace with your data
+
+    // Get the canvas element and create a chart context
+    const ctx = document.getElementById("barChart2").getContext("2d");
+
+    // Create the bar chart
+    const myChart = new Chart(ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                label: "Consumption",
+                data: data,
+                backgroundColor: [
+                    "rgba(255, 99, 132, 0.2)",
+                    "rgba(54, 162, 235, 0.2)",
+                    "rgba(255, 206, 86, 0.2)",
+                    "rgba(75, 192, 192, 0.2)",
+                    "rgba(153, 102, 255, 0.2)",
+                ],
+                borderColor: [
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(153, 102, 255, 1)",
+                ],
+                borderWidth: 1,
+            }],
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+    });
+});
+
+</script>
+</html>
