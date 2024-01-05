@@ -1,0 +1,230 @@
+@font-face {
+    font-family: 'basier';
+    src: url('Fonts/basiersquare-regular-webfont.eot');
+    src: url('Fonts/basiersquare-regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('Fonts/basiersquare-regular-webfont.woff2') format('woff2'),
+        url('Fonts/basiersquare-regular-webfont.woff') format('woff'),
+        url('Fonts/basiersquare-regular-webfont.ttf') format('truetype');
+}
+
+#navItem1 {
+    color: #323f4b;
+    font-family: basier;
+}
+
+#navItem2 {
+    color: #323f4b;
+    font-family: basier;
+}
+
+#navItem3 {
+    color: #323f4b;
+    font-family: basier;
+}
+
+#navItem4 {
+    color: #323f4b;
+    font-family: basier;
+
+}
+
+.food-munch-logo {
+    height: 80px;
+    width: 80px;
+}
+
+.logo {
+    color: #7bcaff;
+    font-family: basier;
+    font-size: 60px;
+    font-weight: 300;
+}
+
+.banner-section-bg-container {
+    border-bottom-left-radius: 200px;
+    border-bottom-right-radius: 200px;
+    padding-bottom: 5%;
+    height: 100%;
+    background-size: cover;
+}
+
+.banner-heading {
+    color: black;
+    font-family: basier;
+    font-size: 70px;
+    font-weight: 900;
+    padding-top: 5%;
+}
+
+.banner-heading-2 {
+    color: black;
+    font-family: basier;
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.banner-caption {
+    color: black;
+    font-family: basier;
+    font-size: 25px;
+    font-weight: 300;
+}
+
+.custom-button {
+    width: 200px;
+    height: 50px;
+    color: black;
+    background-color: #7bcaff;
+    border-width: 0px;
+    border-style: none;
+    border-radius: 15px;
+    margin-right: 10px;
+    font-family: basier;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.custom-outline-button {
+    width: 130px;
+    height: 45px;
+    color: #7bcaff;
+    background-color: transparent;
+    border-width: 3px;
+    border-color: #7bcaff;
+    border-radius: 10px;
+    border-style: solid;
+    font-family: basier;
+    font-weight: 600;
+}
+
+.login-btn {
+    border-radius: 10px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #7bcaff;
+    color: #6ac0fa;
+    padding: 6px;
+    width: 120px;
+    background-color: white;
+    font-weight: 500;
+}
+
+#get-started {
+    background-color: #7bcaff;
+    color: black;
+}
+
+.brainz-description {
+    font-family: basier;
+    color: black;
+}
+
+.description-heading {
+    font-weight: 600;
+}
+
+.description-card {
+    border-radius: 16px;
+    background-color: #ddf3fa;
+}
+
+.description-para {
+    padding-top: 9px;
+}
+
+.science-games {
+    font-family: basier;
+    color: black;
+}
+
+.science-games-heading {
+    font-weight: 600;
+}
+
+.science-games-caption {
+    color: black;
+    font-family: basier;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.brain-people-image {
+    width: 100%;
+    max-width: 70vw !important;
+}
+
+/* Basic CSS for the contact section */
+.contact-section {
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+.contact-details {
+    max-width: 300px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+h2 {
+    font-size: 24px;
+    color: #333;
+}
+
+.contact-info {
+    margin-top: 10px;
+}
+
+.contact-info p {
+    margin: 5px 0;
+}
+
+/* CSS for the feedback and support form */
+.feedback-form {
+    max-width: 400px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #555;
+}
+
+.goal_button {
+    height: 40px;
+    width: 80px;
+    border-radius: 5px;
+    background-color: #000000;
+    color: white;
+}

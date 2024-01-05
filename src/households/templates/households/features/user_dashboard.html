@@ -1,0 +1,177 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/household_dashboard.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white ">
+                <a class="navbar-brand" href="#">
+                    <img src="https://res.cloudinary.com/dchocmmkx/image/upload/v1695315194/logo-removebg-preview_slkrzm.png"
+                    class="waterwatts-logo"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-link active pt-3" href="#1" class="navItem">Consumption Overview<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active pt-3" href="#2" class="navItem">Set Usage Goals</a>
+                    <a class="nav-link active pt-3" href="#" class="navItem">Usage History<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active pt-3" href="#" class="navItem">Community Awareness</a>
+                    <a class="nav-link active pt-3" href="#3" class="navItem">Feedback and Support<span class="sr-only">(current)</span></a>
+                    <a class="nav-link active pt-3" href="#4" class="navItem">Notifications and Alerts</a>
+                    <a class="nav-link active pt-3" href="#" class="navItem">My Profile</a>
+                </div>
+                </div>
+        </nav>
+            <div class="col-12 mt-5">
+                <h1 class="banner-heading mt-5 mb-4">Real-time Monitoring</h1>
+                <form method="GET">
+    <!-- Dropdown menu for selecting the time interval -->
+    <select name="interval" onchange="this.form.submit()">
+        <option value="1hour" {% if selected_interval == '1hour' %}selected{% endif %}>1 Hour</option>
+        <option value="1week" {% if selected_interval == '1week' %}selected{% endif %}>1 Week</option>
+        <option value="1month" {% if selected_interval == '1month' %}selected{% endif %}>1 Month</option>
+        <option value="6months" {% if selected_interval == '6months' %}selected{% endif %}>6 Months</option>
+    </select>
+</form>
+<h2>Electricity Consumption</h2>
+<!-- Create a canvas element for the electricity consumption chart -->
+<canvas id="electricityChart"></canvas>
+
+<h2>Water Consumption</h2>
+<!-- Create a canvas element for the water consumption chart -->
+<canvas id="waterChart"></canvas>
+
+</div>
+
+        <div class="brainz-description">
+            <div class="text-center">
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="description-heading mt-5 mb-5 pd-5"></h1>
+                        </div>
+                        <div class="col-12" id="1">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3" >Consumption Overview</h3>
+                                <p style="font-size: 15px;">Consumption in last 24 hours<br>
+                                    Water Consumption - {{ water_consumption_data }} litres<br>
+                                    Electricity Consumption - {{ electricity_consumption_data }} kWh
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6" id="2">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Set Daily Goal</h3>
+                                <input style="width:210px" class="p-2 m-2" size="20" type="text" placeholder="Set goal for Water Usage">
+                                <input style="width:210px" class="p-2 m-2 mb-3" size="20" type="text" placeholder="Set goal for Electricity Usage">
+                                <button class="goal_button mb-2">Submit</button>
+                                <p>Water Usage Goal</p>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 1%;"></div>
+                                </div>
+                                <p>Electricity Usage Goal</p>
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6" id="4">
+                            <div class="shadow description-card p-3 mb-4">
+                                <div class="section">
+                                    <h2 style="font-size: 30px">Alert Dashboard</h2>
+                                    <div class="notification-card">
+                                        <h3>Notification 1</h3>
+                                        <p>Emergency notification about irregular supply at some random location.</p>
+                                    </div>
+                                    <div class="notification-card">
+                                        <h3>Notification 2</h3>
+                                        <p>Emergency notification about irregular supply at some random location.</p>
+                                    </div>
+                                    <div class="notification-card">
+                                        <h3>Notification 3</h3>
+                                        <p>Emergency notification about irregular supply at some random location.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-details">
+                <h2>Contact Details</h2>
+                <div class="contact-info">
+                    <p>Hyderabad</p>
+                    <p><a href="mailto:admin@waterwattz.com">admin@waterwattz.com</a></p>
+                    <p><a href="https://www.instagram.com/waterwattz/" target="_blank">Instagram</a></p>
+                    <p><a href="https://www.youtube.com/channel/yourchannel" target="_blank">YouTube</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-form" id="3">
+            <h2>Feedback and Support</h2>
+            <form action="#" method="post">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required maxlength="500"></textarea>
+
+                <p><span id="char-count">0</span> of 500 max characters.</p>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
+<script>
+    // Get the data from the view
+    var electricityData = {{ electricity_values|safe }};
+    var waterData = {{ water_values|safe }};
+    var timestamps = {{ timestamps|safe }};
+
+    // Create a function to render the chart
+    function renderChart(data, label, canvasId, labels) {
+        var ctx = document.getElementById(canvasId).getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,  // Use timestamps or labels for time intervals here
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    }
+
+    // Call the function to render the electricity consumption chart
+    renderChart(electricityData, 'Electricity Consumption (kWh)', 'electricityChart', timestamps);
+
+    // Call the function to render the water consumption chart
+    renderChart(waterData, 'Water Consumption (gallons)', 'waterChart', timestamps);
+</script>
+</html>

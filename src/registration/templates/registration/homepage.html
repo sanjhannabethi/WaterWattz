@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="{% static 'css/homepage.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+                <a class="navbar-brand" href="#">
+                    <img src="https://res.cloudinary.com/dchocmmkx/image/upload/v1695315194/logo-removebg-preview_slkrzm.png"
+                    class="food-munch-logo"/>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav ml-auto">
+                    <a class="nav-link active pt-3" href="#features" id="navItem1">Features<span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'login' %}" id="navItem3"><button class="login-btn">Login</button></a>
+                    <a class="nav-link" href="{% url 'register' %}" id="navItem4"><button class="login-btn" id="get-started">Get Started</button></a>
+                </div>
+                </div>
+        </nav>
+
+        <div class="banner-section-bg-container d-flex flex-column justify-content-center">
+            <div class="text-center">
+                <div class="container mt-5">
+                    <div class="row">
+                        <div class="col-12 mt-5">
+                            <h1 class="banner-heading mt-5">WaterWattz</h1>
+                            <h2 class="banner-heading-2 mb-4">Shaping a Sustainable Future</h2>
+                        </div>
+                        <div class="col-12">
+                            <p class="banner-caption mb-4">The ultimate water and electricity tracking app that will have you zapping bills like a lightning superhero!<br>Be your family’s water and energy guardian with sophisticated tracking and smart analytics at your fingertips.</p>
+                            <button class="custom-button mb-5">Get Started</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="brainz-description">
+            <div class="text-center">
+                <div class="container mt-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="description-heading mt-5 mb-5 pd-5" id="features">Thrilling Features!</h1>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Consumption Overview</h3>
+                                <p style="font-size: 17px;">Get a bird's eye view of your water and electricity consumption.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Real-time Monitoring</h3>
+                                <p style="font-size: 17px;">Stay on top of your consumption with live updates and data.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Usage History</h3>
+                                <p style="font-size: 17px;">Review and analyze historical consumption trends and patterns.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Notifications and Alerts</h3>
+                                <p style="font-size: 17px;">Receive instant alerts for unusual consumption behaviors.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Set Daily Goals</h3>
+                                <p style="font-size: 17px;">Motivate yourself to save resources by setting daily targets.</p>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="shadow description-card p-3 mb-4">
+                                <h3 class="menu-card-title mb-3">Feedback and Support</h3>
+                                <p style="font-size: 17px;">We’re here to help you with any questions or concerns.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-details">
+                <h2>Contact Details</h2>
+                <div class="contact-info">
+                    <p>Hyderabad</p>
+                    <p><a href="mailto:admin@waterwattz.com">admin@waterwattz.com</a></p>
+                    <p><a href="https://www.instagram.com/waterwattz/" target="_blank">Instagram</a></p>
+                    <p><a href="https://www.youtube.com/channel/yourchannel" target="_blank">YouTube</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="feedback-form">
+            <h2>Feedback and Support</h2>
+            <form action="#" method="post">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required maxlength="500"></textarea>
+
+                <p><span id="char-count">0</span> of 500 max characters.</p>
+
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,59 @@
+<!-- dashboard.html -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<form method="GET">
+    <!-- Dropdown menu for selecting the time interval -->
+    <select name="interval" onchange="this.form.submit()">
+        <option value="1hour" {% if selected_interval == '1hour' %}selected{% endif %}>1 Hour</option>
+        <option value="1week" {% if selected_interval == '1week' %}selected{% endif %}>1 Week</option>
+        <option value="1month" {% if selected_interval == '1month' %}selected{% endif %}>1 Month</option>
+        <option value="6months" {% if selected_interval == '6months' %}selected{% endif %}>6 Months</option>
+    </select>
+</form>
+
+<h1>Welcome, {{ request.user.username }}</h1>
+
+<h2>Electricity Consumption</h2>
+<!-- Create a canvas element for the electricity consumption chart -->
+<canvas id="electricityChart"></canvas>
+
+<h2>Water Consumption</h2>
+<!-- Create a canvas element for the water consumption chart -->
+<canvas id="waterChart"></canvas>
+
+<script>
+    // Get the data from the view
+    var electricityData = {{ electricity_values|safe }};
+    var waterData = {{ water_values|safe }};
+    var timestamps = {{ timestamps|safe }};
+
+    // Create a function to render the chart
+    function renderChart(data, label, canvasId, labels) {
+        var ctx = document.getElementById(canvasId).getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,  // Use timestamps or labels for time intervals here
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    }
+
+    // Call the function to render the electricity consumption chart
+    renderChart(electricityData, 'Electricity Consumption (kWh)', 'electricityChart', timestamps);
+
+    // Call the function to render the water consumption chart
+    renderChart(waterData, 'Water Consumption (gallons)', 'waterChart', timestamps);
+</script>

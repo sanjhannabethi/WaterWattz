@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ location.name }} Consumption</title>
+    <!-- Add CSS and JavaScript links here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/location.css' %}">
+    <!-- Include your charting library here, e.g., Chart.js -->
+    <!-- Include Chart.js library -->
+    <style>
+        /* Basic styling for the navigation bar */
+        #navbar {
+            background-color: #3498db;
+            overflow: hidden;
+        }
+
+        #navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        #navbar a:hover {
+            background-color: #2980b9;
+        }
+
+        /* Styling for the header */
+        #header {
+            background-color: #2c3e50;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            font-family: "Arial", sans-serif;
+        }
+
+
+
+        .graph h3 {
+            color: #e74c3c;
+            font-size: 20px;
+            margin: 0;
+        }
+
+
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+<div id="navbar">
+        <a href="#">Home</a>
+        <a href="#">Edit Profile</a>
+        <a href="#">Logout</a>
+    </div>
+
+    <div id="header">
+        <h1 style="font-size: 32px;">Account Type: State Municipal Corporation</h1>
+    </div>
+    <header>
+        <h1>{{ location.name }} Consumption</h1>
+    </header>
+    <section class="location-info">
+    <h2>Location Information</h2>
+    <!-- Display location information here -->
+    <p>Location Name: {{ location.name }}</p>
+    <p>Latitude: {{ location.latitude }}</p>
+    <p>Longitude: {{ location.longitude }}</p>
+    <!-- Add more location details as needed -->
+</section>
+
+    <section class="consumption-graph">
+    <h2>Electricity Consumption Graph</h2>
+    <canvas id="electricity-chart"></canvas>
+</section>
+
+<section class="consumption-graph">
+    <h2>Water Consumption Graph</h2>
+    <canvas id="water-chart"></canvas>
+</section>
+
+    <section class="time-interval">
+        <h2>Select Time Interval</h2>
+        <!-- Add options for selecting the time interval -->
+        <label for="start-date">Start Date:</label>
+        <input type="date" id="start-date" name="start-date">
+        <label for="end-date">End Date:</label>
+        <input type="date" id="end-date" name="end-date">
+        <button id="update-chart">Update Graph</button>
+    </section>
+    <section class="download-pdf">
+        <h2>Download Consumption Report</h2>
+        <!-- Provide a link to download the PDF report -->
+        <a href="{% url 'download_pdf' %}" download>Download PDF Report</a>
+    </section>
+    <footer>
+        <p>&copy; 2023 Your Company Name</p>
+    </footer>
+    <!-- Include your JavaScript code to render the consumption graph here -->
+</body>
+
+<script>
+    // Get the data from the view
+    var electricityData = {{ electricity_data|safe }};
+    var waterData = {{ water_data|safe }};
+    var timestamps = {{ timestamps|safe }};
+
+    // Create a function to render the chart
+    function renderChart(data, label, canvasId, labels) {
+        var ctx = document.getElementById(canvasId).getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: label,
+                    data: data,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1,
+                }],
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
+                },
+            },
+        });
+    }
+
+    // Call the function to render the electricity consumption chart
+    renderChart(electricityData, 'Electricity Consumption (kWh)', 'electricityChart', timestamps);
+
+    // Call the function to render the water consumption chart
+    renderChart(waterData, 'Water Consumption (gallons)', 'waterChart', timestamps);
+</script>
+</html>
+
+
+
+
+
